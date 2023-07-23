@@ -16,17 +16,13 @@
                   >
                   <input
                     type="text"
-                    class="form-control"
+                    :class="`form-control ${validation.username ? 'is-invalid' : ''}`"
                     v-model="form.username"
                     placeholder="Username"
-                    @input="clearValidationError('Username')"
+                    @change="clearValidation('username')"
                   />
-                  <!-- validation -->
-                  <div
-                    v-if="hasError('Username')"
-                    class="mt-2 text-danger"
-                  >
-                    {{ getErrorMessage("Username") }}
+                  <div v-show="validation.username" class="mt-2 text-danger">
+                    {{ validation.username }}
                   </div>
                 </div>
                 <div class="form-group mb-3">
@@ -34,18 +30,14 @@
                     >Password</label
                   >
                   <input
-                    type="text"
-                    class="form-control"
+                    type="password"
+                    :class="`form-control ${validation.password ? 'is-invalid' : ''}`"
                     v-model="form.password"
                     placeholder="Password"
-                    @input="clearValidationError('Password')"
+                    @change="clearValidation('password')"
                   />
-                  <!-- validation -->
-                  <div
-                    v-if="hasError('Password')"
-                    class="mt-2 text-danger"
-                  >
-                    {{ getErrorMessage("Password") }}
+                  <div v-show="validation.password" class="mt-2 text-danger">
+                    {{ validation.password }}
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
@@ -68,13 +60,16 @@ const store = useStore();
 import { useRouter } from "vue-router";
 const router = useRouter();
 
+const validation = reactive({});
+function clearValidation(field){
+  validation[field] = "";
+}
+
 const form = reactive({
   username: "",
   password: "",
 });
 
-//state validation
-const validation = reactive([]);
 
 //vue router
 
@@ -91,22 +86,15 @@ function Login() {
       });
     })
     .catch((error) => {
-      alertError(error.response.data?.message);
-      if (error.response.status == 422) {
-        validation.value = error.response.data?.data;
+      alertError(error?.response?.data?.message || "Terjadi Kesalahan");
+      if (error?.response?.status == 422) {
+        let faileds = error.response?.data?.data;
+        if(faileds.length > 0){
+          faileds.forEach((faileds) => {
+            validation[faileds.FailedField.toLowerCase()] = faileds.Tag;
+          });
+        }
       }
     });
-}
-function clearValidationError(field) {
-  validation.value = validation.value?.filter(
-    (error) => error.FailedField !== field
-  );
-}
-function hasError(field) {
-  return validation.value?.some((error) => error.FailedField === field);
-}
-function getErrorMessage(field) {
-  const error = validation.value?.find((error) => error.FailedField === field);
-  return error ? error.Tag : "";
 }
 </script>

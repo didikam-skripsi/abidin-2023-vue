@@ -99,8 +99,8 @@ function submit() {
   authAxios()
     .post(`/admin/user`, form)
     .then((res) => {
-      if (res.status != 200) throw new Error(res.data.message);
-      alertSuccess(res.data.message);
+      if (res.status != 200) throw new Error(res.data?.message);
+      alertSuccess(res.data?.message);
       router.push({
         name: "user.index",
       });
@@ -108,7 +108,7 @@ function submit() {
     .catch((error) => {
       alertError(error.response?.data?.message || "Terjadi kesalahan");
       if (error.response?.status == 422) {
-        let faileds = error.response.data?.data;
+        let faileds = error.response?.data?.data;
         if(faileds.length > 0){
           faileds.forEach((faileds) => {
             validation[faileds.FailedField.toLowerCase()] = faileds.Tag;

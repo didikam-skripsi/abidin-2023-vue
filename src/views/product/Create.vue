@@ -9,36 +9,36 @@
               <h4>ADD PRODUCT</h4>
               <hr />
               <form @submit.prevent="submit">
-                <div class="form-group">
+                <div class="form-group mb-3">
                   <label for="name" class="font-weight-bold">NAME</label>
                   <input
                     type="text"
-                    class="form-control"
-                    v-model="product.name"
+                    :class="`form-control ${
+                      validation.name ? 'is-invalid' : ''
+                    }`"
+                    v-model="form.name"
                     placeholder="Name"
-                    @input="clearValidationError('Name')"
+                    @input="clearValidation('name')"
                   />
-                  <!-- validation -->
-                  <div v-if="hasError('Name')" class="mt-2 alert alert-danger">
-                    {{ getErrorMessage("Name") }}
+                  <div v-show="validation.name" class="mt-2 text-danger">
+                    {{ validation.name }}
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-3">
                   <label for="description" class="font-weight-bold"
                     >DESCRIPTION</label
                   >
                   <textarea
-                    class="form-control"
+                    :class="`form-control ${
+                      validation.description ? 'is-invalid' : ''
+                    }`"
                     rows="4"
-                    v-model="product.description"
+                    v-model="form.description"
                     placeholder="Description"
-                    @input="clearValidationError('Description')"
+                    @input="clearValidation('description')"
                   ></textarea>
-                  <div
-                    v-if="hasError('Description')"
-                    class="mt-2 alert alert-danger"
-                  >
-                    {{ getErrorMessage("Description") }}
+                  <div v-show="validation.description" class="mt-2 text-danger">
+                    {{ validation.description }}
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary">SAVE</button>
@@ -57,51 +57,37 @@ import { useRouter } from "vue-router";
 import { alertSuccess, alertError } from "@/utils/utils";
 import { authAxios } from "@/utils/axios";
 import FrontLayout from "@/layouts/FrontLayout";
-const product = reactive({
+const router = useRouter();
+const form = reactive({
   name: "",
   description: "",
 });
-//state validation
-const validation = reactive([]);
-//vue router
-const router = useRouter();
+const validation = reactive({});
+function clearValidation(field) {
+  validation[field] = "";
+}
 
 //method submit
 function submit() {
-  let name = product.name;
-  let description = product.description;
   authAxios()
-    .post(
-      `/admin/product`,
-      {
-        name: name,
-        description: description,
-      },
-    )
+    .post(`/admin/product`, form)
     .then((res) => {
-      if (res.status != 200) throw new Error(res.data.message);
-      alertSuccess(res.data.message);
+      if (res.status != 200) throw new Error(res.data?.message);
+      alertSuccess(res.data?.message);
       router.push({
         name: "product.index",
       });
     })
     .catch((error) => {
-      alertError(error.response?.data?.message || "Terjadi kesalahan");
+      alertError(error?.response?.data?.message);
       if (error.response?.status == 422) {
-        validation.value = error.response.data?.data;
+        let faileds = error.response?.data?.data;
+        if (faileds.length > 0) {
+          faileds.forEach((faileds) => {
+            validation[faileds.FailedField.toLowerCase()] = faileds.Tag;
+          });
+        }
       }
     });
-}
-function clearValidationError(field) {
-  validation.value = validation.value?.filter(
-    (error) => error.FailedField !== field
-  );
-}
-function hasError(field) {
-  return validation.value?.some((error) => error.FailedField === field);
-}
-function getErrorMessage(field) {
-  const error = validation.value?.find((error) => error.FailedField === field);
-  return error ? error.Tag : "";
 }
 </script>

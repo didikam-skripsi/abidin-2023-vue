@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 
-export const alertSuccess = (message) => {
+export const alertSuccess = async (message) => {
   createToast(message, {
     type: "success",
     timeout: 3000,
