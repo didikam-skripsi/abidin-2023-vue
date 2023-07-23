@@ -36,4 +36,3 @@ export const confirmation = async (message, title = "Yakin?") => {
     return res.isConfirmed;
   });
 };
-

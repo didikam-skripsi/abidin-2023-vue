@@ -43,6 +43,30 @@ const routes = [
       middleware: auth,
     },
   },
+  {
+    path: "/user",
+    name: "user.index",
+    component: () => import("@/views/user/Index.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/user/create",
+    name: "user.create",
+    component: () => import("@/views/user/Create.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/user/edit/:uuid",
+    name: "user.edit",
+    component: () => import("@/views/user/Edit.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
 ];
 
 //create router

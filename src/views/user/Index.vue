@@ -6,30 +6,31 @@
         <div class="col-md-12">
           <div class="card border-0 rounded shadow">
             <div class="card-body">
-              <h4>DATA PRODUCT</h4>
+              <h4>DATA USER</h4>
               <hr />
               <router-link
-                :to="{ name: 'product.create' }"
+                :to="{ name: 'user.create' }"
                 class="btn btn-md btn-success"
-                >ADD PRODUCT</router-link
+                >ADD USER</router-link
               >
-
               <table class="table table-striped table-bordered mt-4">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">NAME</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">OPTIONS</th>
+                    <th scope="col">USERNAME</th>
+                    <th scope="col">ROLE</th>
+                    <th class="text-center" scope="col">OPTIONS</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(data, index) in datas" :key="index">
                     <td>{{ data.name }}</td>
-                    <td>{{ data.description }}</td>
+                    <td>{{ data.username }}</td>
+                    <td>{{ data.role }}</td>
                     <td class="text-center">
                       <router-link
                         :to="{
-                          name: 'product.edit',
+                          name: 'user.edit',
                           params: { uuid: data.uuid },
                         }"
                         class="btn btn-sm btn-primary me-1"
@@ -65,7 +66,7 @@ onMounted(() => {
 });
 function fetchData() {
   authAxios()
-    .get("/admin/product", {
+    .get("/admin/user", {
       params: { per_page: 10 },
     })
     .then((response) => {
@@ -78,7 +79,7 @@ function fetchData() {
 //method delete
 function postDelete(uuid) {
   authAxios()
-    .delete(`/admin/product/${uuid}`)
+    .delete(`/admin/user/${uuid}`)
     .then((res) => {
       if (res.status != 200) throw new Error(res.data.message);
       alertSuccess(res.data.message);

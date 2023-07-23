@@ -40,3 +40,8 @@ export const isTokenExpired = () => {
   }
   return is_expired;
 };
+
+export const logout = () => {
+  localStorage.removeItem('gostarter_token');
+  window.location.href = '/';
+}

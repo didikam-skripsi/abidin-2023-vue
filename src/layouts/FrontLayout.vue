@@ -28,14 +28,24 @@
               >Product</router-link
             >
           </li>
+          <li class="nav-item" v-if="checkRoles(['admin'])">
+            <router-link class="nav-link" :to="{ name: 'user.index' }"
+              >User</router-link
+            >
+          </li>
         </ul>
         <div class="d-flex">
-          <span v-if="authUser" class="form-control me-3">{{ authUser?.username }} {{ authUser?.role }}</span>
-          <router-link
-            v-else class="btn btn-outline-success"
-            :to="{ name: 'auth.login' }"
-            >Login</router-link
-          >
+          <div v-if="authUser" class="d-flex">
+            <span class="form-control me-3">{{ authUser?.username }} {{ authUser?.role }}</span>
+            <button class="btn btn-outline-danger" @click.prevent="logout">Logout</button>
+          </div>
+          <div v-else>
+            <router-link
+              class="btn btn-outline-success"
+              :to="{ name: 'auth.login' }"
+              >Login</router-link
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -45,7 +55,7 @@
 
 <script setup>
 import { onBeforeMount } from "vue";
-import { isTokenExpired, checkRoles, getAuthUser } from "@/utils/auth";
+import { isTokenExpired, checkRoles, getAuthUser, logout } from "@/utils/auth";
 
 const authUser = getAuthUser();
 
