@@ -53,10 +53,10 @@
 
 <script setup>
 import { reactive, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
 import { authAxios } from "@/utils/axios";
 import FrontLayout from "@/layouts/FrontLayout";
 import { alertSuccess, alertError } from "@/utils/utils";
+import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
 const route = useRoute();
 
