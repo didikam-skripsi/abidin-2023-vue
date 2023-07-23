@@ -1,0 +1,3 @@
+npm install vue-router@next
+npm install axios
+npm install bootstrap popper.js jquery
