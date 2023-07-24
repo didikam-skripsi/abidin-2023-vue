@@ -1,13 +1,16 @@
 //import vue router
 import { createRouter, createWebHistory } from "vue-router";
-import { auth } from "@/middlewares/auth";
+import { auth, no_auth } from "@/middlewares/auth";
 
 //define a routes
 const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import("@/views/Home.vue"),
+    component: () => import("@/views/auth/Login.vue"),
+    meta: {
+      middleware: no_auth,
+    },
   },
   {
     path: "/about",
@@ -18,6 +21,41 @@ const routes = [
     path: "/login",
     name: "auth.login",
     component: () => import("@/views/auth/Login.vue"),
+    meta: {
+      middleware: no_auth,
+    },
+  },
+  {
+    path: "/admin",
+    name: "admin.dashboard",
+    component: () => import("@/views/admin/Dashboard.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/admin/user",
+    name: "admin.user.index",
+    component: () => import("@/views/admin/user/Index.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/admin/user/create",
+    name: "admin.user.create",
+    component: () => import("@/views/admin/user/Create.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/admin/user/edit/:uuid",
+    name: "admin.user.edit",
+    component: () => import("@/views/admin/user/Edit.vue"),
+    meta: {
+      middleware: auth,
+    },
   },
   {
     path: "/product",

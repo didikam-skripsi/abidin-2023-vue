@@ -13,3 +13,10 @@ export function auth({ router }) {
   }
   return true;
 }
+
+export function no_auth({ router }) {
+  if (!isTokenExpired()) {
+    return router.push({ name: 'admin.dashboard' });
+  }
+  return true;
+}

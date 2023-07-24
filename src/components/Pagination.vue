@@ -7,7 +7,7 @@
           <ul class="pagination d-flex">
             <li class="page-item">
               <router-link
-                :to="{ name: 'product.index', query: { page: back_page } }"
+                :to="{ name: props.routerName, query: { page: back_page } }"
                 :class="`page-link ${current_page == 1 ? 'disabled' : ''}`"
                 >Previous</router-link
               >
@@ -15,7 +15,7 @@
             <li v-for="page in pages" :key="page" class="page-item">
               <router-link
                 v-if="shouldShowPage(page)"
-                :to="{ name: 'product.index', query: { page: page } }"
+                :to="{ name: props.routerName, query: { page: page } }"
                 :class="`page-link ${page == current_page ? 'disabled' : ''}`"
                 >{{ page }}</router-link
               >
@@ -27,7 +27,7 @@
             </li>
             <li class="page-item">
               <router-link
-                :to="{ name: 'product.index', query: { page: to_page } }"
+                :to="{ name: props.routerName, query: { page: to_page } }"
                 :class="`page-link ${current_page == pages ? 'disabled' : ''}`"
                 >Next</router-link
               >
@@ -35,7 +35,7 @@
           </ul>
         </nav>
     </div>
-    <div class="col-md-4 text-end">
+    <div class="col-md-4 text-right">
       Showing {{ getShowing() }} to {{ getShowingTo() }} of
       {{ datas.total }} entries
     </div>
@@ -48,6 +48,7 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const props = defineProps({
   datas: Object,
+  routerName: String
 });
 
 let pages = ref(0);

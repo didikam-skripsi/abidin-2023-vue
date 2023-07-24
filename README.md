@@ -1,4 +1,4 @@
-# gostarter-vue
+# project-vue
 
 ## Project setup
 ```
