@@ -2,10 +2,6 @@
 <!-- eslint-disable no-undef -->
 <template>
   <div class="row" v-show="getShowing()<=props.datas?.total">
-    <div class="col-md-4">
-      Showing {{ getShowing() }} to {{ getShowingTo() }} of
-      {{ datas.total }} entries
-    </div>
     <div class="col-md-8 ms-auto" style="overflow-x: auto;">
         <nav aria-label="Page navigation example">
           <ul class="pagination d-flex">
@@ -38,6 +34,10 @@
             </li>
           </ul>
         </nav>
+    </div>
+    <div class="col-md-4 text-end">
+      Showing {{ getShowing() }} to {{ getShowingTo() }} of
+      {{ datas.total }} entries
     </div>
   </div>
 </template>

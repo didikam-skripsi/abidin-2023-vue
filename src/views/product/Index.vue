@@ -58,7 +58,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(data, index) in datas.data" :key="index">
+                    <tr v-if="datas.loading">
+                      <td colspan="4" class="text-center">
+                        <i class="fas fa-circle-notch fa-spin"></i> Loading...
+                      </td>
+                    </tr>
+                    <tr v-else v-for="(data, index) in datas.data" :key="index">
                       <td>
                         {{ index + 1 + (params.page - 1) * datas.per_page }}
                       </td>
@@ -104,6 +109,7 @@ const route = useRoute();
 const router = useRouter();
 
 let datas = ref({
+  loading: true,
   data: [],
   total: 0,
   current_page: 1,
@@ -129,12 +135,14 @@ function search() {
 }
 
 function fetchData() {
+  datas.value.loading = true;
   authAxios()
     .get("/admin/product", {
       params,
     })
     .then((response) => {
       datas.value = response.data;
+      datas.value.loading = false;
     })
     .catch((error) => {
       alertError(error.response?.data || "Terjadi Kesalahan");
