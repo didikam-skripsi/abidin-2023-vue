@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <aside class="main-sidebar sidebar-light-indigo elevation-1">
+  <aside class="main-sidebar sidebar-light-navy elevation-1">
     <!-- Brand Logo -->
     <span class="brand-link">
       <img
@@ -44,10 +44,15 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <router-link
+              :to="{ name: 'admin.profile.index' }"
+              :class="`nav-link ${
+                route.name == 'admin.profile.index' ? 'active' : ''
+              }`"
+            >
               <i class="nav-icon fas fa-user"></i>
               <p>Profil</p>
-            </a>
+            </router-link>
           </li>
           <li class="nav-item">
             <a @click.prevent="logout" href="#" class="nav-link">

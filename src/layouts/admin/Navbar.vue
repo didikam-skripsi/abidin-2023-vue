@@ -29,13 +29,22 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, computed, watch } from "vue";
 import { getAuthUser } from "@/utils/auth";
-const authUser = getAuthUser();
+import { useStore } from "vuex";
+const store = useStore();
+const token = computed(() => store.getters["authStore/getToken"]);
+const authUser = ref({});
+
+watch(token, () => {
+  authUser.value = getAuthUser();
+  console.log("update token");
+});
 
 let isCollapse = ref(false);
 onBeforeMount(() => {
   collapse();
+  authUser.value = getAuthUser();
 });
 
 function collapse() {

@@ -7,7 +7,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Edit Pengguna</h1>
+              <h1 class="m-0">Edit Profil</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -16,12 +16,7 @@
                     >Home</router-link
                   >
                 </li>
-                <li class="breadcrumb-item">
-                  <router-link :to="{ name: 'admin.user.index' }"
-                    >User</router-link
-                  >
-                </li>
-                <li class="breadcrumb-item active">Edit</li>
+                <li class="breadcrumb-item active">Profil</li>
               </ol>
             </div>
           </div>
@@ -90,24 +85,6 @@
                         {{ validation.password }}
                       </div>
                     </div>
-                    <div class="form-group mb-3">
-                      <label for="role" class="font-weight-bold">Role</label>
-                      <select
-                        v-model="form.role"
-                        id="role"
-                        :class="`form-control ${
-                          validation.role ? 'is-invalid' : ''
-                        }`"
-                        placeholder="Role"
-                        @change="clearValidation('role')"
-                      >
-                        <option value="operator">Operator</option>
-                        <option value="admin">Admin</option>
-                      </select>
-                      <div v-show="validation.role" class="mt-2 text-danger">
-                        {{ validation.role }}
-                      </div>
-                    </div>
                     <button type="submit" class="btn btn-primary">
                       <i class="fas fa-save"></i> Simpan
                     </button>
@@ -127,41 +104,33 @@ import AdminLayout from "@/layouts/AdminLayout";
 import { reactive, onMounted } from "vue";
 import { authAxios } from "@/utils/axios";
 import { alertSuccess, alertError } from "@/utils/utils";
-import { useRouter, useRoute } from "vue-router";
+import { getAuthUser } from "@/utils/auth";
+const authUser = getAuthUser();
+import { useStore } from "vuex";
+const store = useStore();
+import { useRouter } from "vue-router";
 const router = useRouter();
-const route = useRoute();
 const validation = reactive({});
 function clearValidation(field) {
   validation[field] = "";
 }
 const form = reactive({
-  name: "",
-  username: "",
-  role: "",
+  name: authUser?.name,
+  username: authUser?.username,
 });
 //mounted
-onMounted(() => {
-  authAxios()
-    .get(`/admin/user/${route.params.uuid}`)
-    .then((response) => {
-      form.name = response.data?.data?.name;
-      form.username = response.data?.data?.username;
-      form.role = response.data?.data?.role;
-    })
-    .catch((error) => {
-      alertError(error.response?.data || "Terjadi Kesalahan");
-    });
-});
+onMounted(() => {});
 
 //method submit
 function submit() {
   authAxios()
-    .put(`/admin/user/${route.params.uuid}`, form)
-    .then((res) => {
+    .put(`/auth/profile`, form)
+    .then(async(res) => {
       if (res.status != 200) throw new Error(res.data?.message);
       alertSuccess(res.data?.message);
+      await store.dispatch("authStore/setAuth", res.data?.data?.token);
       router.push({
-        name: "admin.user.index",
+        name: "admin.profile.index",
       });
     })
     .catch((error) => {

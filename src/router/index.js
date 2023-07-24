@@ -34,6 +34,14 @@ const routes = [
     },
   },
   {
+    path: "/admin/profile",
+    name: "admin.profile.index",
+    component: () => import("@/views/admin/profile/Edit.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
     path: "/admin/user",
     name: "admin.user.index",
     component: () => import("@/views/admin/user/Index.vue"),
