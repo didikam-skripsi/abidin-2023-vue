@@ -5,18 +5,18 @@
     <div class="col-md-8 ms-auto" style="overflow-x: auto;">
         <nav aria-label="Page navigation example">
           <ul class="pagination d-flex">
-            <li class="page-item">
+            <li :class="`page-item ${current_page <= 1 ? 'disabled' : ''}`">
               <router-link
                 :to="{ name: props.routerName, query: { page: back_page } }"
-                :class="`page-link ${current_page == 1 ? 'disabled' : ''}`"
+                :class="`page-link`"
                 >Previous</router-link
               >
             </li>
-            <li v-for="page in pages" :key="page" class="page-item">
+            <li v-for="page in pages" :key="page" :class="`page-item ${(!shouldShowPage(page) && shouldShowDot(page)) || page == current_page ? 'disabled' : ''}`">
               <router-link
                 v-if="shouldShowPage(page)"
                 :to="{ name: props.routerName, query: { page: page } }"
-                :class="`page-link ${page == current_page ? 'disabled' : ''}`"
+                :class="`page-link`"
                 >{{ page }}</router-link
               >
               <span
@@ -25,10 +25,10 @@
                 >...</span
               >
             </li>
-            <li class="page-item">
+            <li :class="`page-item ${current_page == pages ? 'disabled' : ''}`">
               <router-link
                 :to="{ name: props.routerName, query: { page: to_page } }"
-                :class="`page-link ${current_page == pages ? 'disabled' : ''}`"
+                :class="`page-link`"
                 >Next</router-link
               >
             </li>

@@ -13,11 +13,6 @@ const routes = [
     },
   },
   {
-    path: "/about",
-    name: "about",
-    component: () => import("@/views/About.vue"),
-  },
-  {
     path: "/login",
     name: "auth.login",
     component: () => import("@/views/auth/Login.vue"),
@@ -66,49 +61,25 @@ const routes = [
     },
   },
   {
-    path: "/product",
-    name: "product.index",
-    component: () => import("@/views/product/Index.vue"),
+    path: "/admin/siswa",
+    name: "admin.siswa.index",
+    component: () => import("@/views/admin/siswa/Index.vue"),
     meta: {
       middleware: auth,
     },
   },
   {
-    path: "/product/create",
-    name: "product.create",
-    component: () => import("@/views/product/Create.vue"),
+    path: "/admin/siswa/create",
+    name: "admin.siswa.create",
+    component: () => import("@/views/admin/siswa/Create.vue"),
     meta: {
       middleware: auth,
     },
   },
   {
-    path: "/product/edit/:uuid",
-    name: "product.edit",
-    component: () => import("@/views/product/Edit.vue"),
-    meta: {
-      middleware: auth,
-    },
-  },
-  {
-    path: "/user",
-    name: "user.index",
-    component: () => import("@/views/user/Index.vue"),
-    meta: {
-      middleware: auth,
-    },
-  },
-  {
-    path: "/user/create",
-    name: "user.create",
-    component: () => import("@/views/user/Create.vue"),
-    meta: {
-      middleware: auth,
-    },
-  },
-  {
-    path: "/user/edit/:uuid",
-    name: "user.edit",
-    component: () => import("@/views/user/Edit.vue"),
+    path: "/admin/siswa/edit/:uuid",
+    name: "admin.siswa.edit",
+    component: () => import("@/views/admin/siswa/Edit.vue"),
     meta: {
       middleware: auth,
     },

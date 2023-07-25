@@ -31,6 +31,18 @@
               <p>Dashboard</p>
             </router-link>
           </li>
+          <li class="nav-header">Menu</li>
+          <li class="nav-item">
+            <router-link
+              :to="{ name: 'admin.siswa.index' }"
+              :class="`nav-link ${
+                route.name == 'admin.siswa.index' ? 'active' : ''
+              }`"
+            >
+              <i class="nav-icon fas fa-book"></i>
+              <p>Siswa</p>
+            </router-link>
+          </li>
           <li class="nav-header">Pengaturan</li>
           <li class="nav-item">
             <router-link
