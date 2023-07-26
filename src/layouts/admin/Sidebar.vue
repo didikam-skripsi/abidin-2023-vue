@@ -7,7 +7,7 @@
         <img
           :src="imgLogo"
           class="elevation-2"
-          style="width:77%;border-radius: 22px;"
+          style="width: 77%; border-radius: 22px"
         />
       </span>
     </span>
@@ -89,7 +89,7 @@
             </router-link>
           </li>
           <li class="nav-header">Pengaturan</li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="checkRoles(['admin'])">
             <router-link
               :to="{ name: 'admin.user.index' }"
               :class="`nav-link ${
@@ -125,7 +125,7 @@
 
 <script setup>
 import imgLogo from "@/assets/logo.jpeg";
-import { logout } from "@/utils/auth";
 import { useRoute } from "vue-router";
+import { checkRoles, logout } from "@/utils/auth";
 const route = useRoute();
 </script>

@@ -23,7 +23,7 @@
               >About</router-link
             >
           </li>
-          <li class="nav-item" v-if="checkRoles(['admin','user'])">
+          <li class="nav-item" v-if="checkRoles(['admin','operator'])">
             <router-link class="nav-link" :to="{ name: 'product.index' }"
               >Product</router-link
             >
