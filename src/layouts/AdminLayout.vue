@@ -17,6 +17,12 @@
 <script setup>
 import Navbar from "@/layouts/admin/Navbar";
 import Sidebar from "@/layouts/admin/Sidebar";
+import { onMounted } from "vue";
+import { isTokenExpired } from "@/utils/auth";
+
+onMounted(() => {
+  isTokenExpired()
+});
 </script>
 
 <style></style>

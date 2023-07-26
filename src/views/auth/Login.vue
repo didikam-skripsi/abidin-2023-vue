@@ -2,9 +2,14 @@
 <!-- eslint-disable no-undef -->
 <template>
   <AuthLayout>
-    <div class="card card-outline card-primary">
+    <div class="card card-outline card-success">
       <div class="card-header text-center">
-        <span class="h1"><b>Naive</b> Bayes</span>
+        <img
+          :src="imgLogo"
+          class="elevation-1 mt-3"
+          style="width: 60%; border-radius: 22px"
+        />
+        <p class="h3 mt-3"><b>Naive</b> Bayes</p>
       </div>
       <div class="card-body">
         <p class="login-box-msg">Silahkan Login</p>
@@ -13,7 +18,9 @@
             <div class="input-group">
               <input
                 type="text"
-                :class="`form-control ${validation.username ? 'is-invalid' : ''}`"
+                :class="`form-control ${
+                  validation.username ? 'is-invalid' : ''
+                }`"
                 v-model="form.username"
                 placeholder="Username"
                 @input="clearValidation('username')"
@@ -32,7 +39,9 @@
             <div class="input-group">
               <input
                 type="password"
-                :class="`form-control ${validation.password ? 'is-invalid' : ''}`"
+                :class="`form-control ${
+                  validation.password ? 'is-invalid' : ''
+                }`"
                 v-model="form.password"
                 placeholder="Password"
                 @input="clearValidation('password')"
@@ -49,7 +58,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <button type="submit" class="btn btn-primary btn-block">
+              <button type="submit" class="btn btn-success btn-block">
                 Login
               </button>
             </div>
@@ -62,6 +71,7 @@
 </template>
 
 <script setup>
+import imgLogo from "@/assets/logo.jpeg";
 import AuthLayout from "@/layouts/AuthLayout";
 import { reactive } from "vue";
 import { alertSuccess, alertError } from "@/utils/utils";

@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-success navbar-dark">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -38,7 +38,6 @@ const authUser = ref({});
 
 watch(token, () => {
   authUser.value = getAuthUser();
-  console.log("update token");
 });
 
 let isCollapse = ref(false);

@@ -1,0 +1,19 @@
+[class*=sidebar-dark-] {
+    background-color: #0b6600 !important;
+}
+.navbar-success {
+    background-color: #0b6600 !important;
+    color: #fff;
+}
+[class*=sidebar-dark] .brand-link {
+    border-bottom: 2px solid #cfcfcf !important;
+}
+.bg-success {
+    background-color: #0b6600!important;
+}
+.btn-success {
+    background-color: #0b6600!important;
+}
+.card-success.card-outline {
+    border-top: 3px solid #0b6600;
+}

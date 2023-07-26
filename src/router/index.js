@@ -84,6 +84,54 @@ const routes = [
       middleware: auth,
     },
   },
+  {
+    path: "/admin/nilai",
+    name: "admin.nilai.index",
+    component: () => import("@/views/admin/nilai/Index.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/admin/nilai/edit/:uuid",
+    name: "admin.nilai.edit",
+    component: () => import("@/views/admin/nilai/Edit.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/admin/attribute",
+    name: "admin.attribute.index",
+    component: () => import("@/views/admin/attribute/Index.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/admin/attribute/edit/:uuid",
+    name: "admin.attribute.edit",
+    component: () => import("@/views/admin/attribute/Edit.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/admin/transformasi",
+    name: "admin.transformasi.index",
+    component: () => import("@/views/admin/transformasi/Index.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
+  {
+    path: "/admin/bayes",
+    name: "admin.bayes.index",
+    component: () => import("@/views/admin/bayes/Index.vue"),
+    meta: {
+      middleware: auth,
+    },
+  },
 ];
 
 //create router

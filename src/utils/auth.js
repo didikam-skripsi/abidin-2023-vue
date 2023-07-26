@@ -2,7 +2,7 @@ import jwtDecode from "jwt-decode";
 
 export const getToken = () => {
   let token = localStorage.getItem("gostarter_token") || null;
-  return token
+  return token;
 };
 
 export const getAuthUser = () => {
@@ -11,7 +11,7 @@ export const getAuthUser = () => {
 };
 
 export const checkRoles = (roles) => {
-  return roles.includes(getAuthUser()?.role)
+  return roles.includes(getAuthUser()?.role);
 };
 
 export const checkPermission = (permissions, reqAccess) => {
@@ -35,13 +35,15 @@ export const isTokenExpired = () => {
   const decodedToken = jwtDecode(token);
   const expirationTime = decodedToken.exp * 1000;
   const is_expired = Date.now() >= expirationTime;
-  if(is_expired){
-    localStorage.removeItem("gostarter_token")
+  // const currentTime = new Date(Date.now());
+  // const expirationDate = new Date(decodedToken.exp*1000);
+  if (is_expired) {
+    localStorage.removeItem("gostarter_token");
   }
   return is_expired;
 };
 
 export const logout = () => {
-  localStorage.removeItem('gostarter_token');
-  window.location.href = '/';
-}
+  localStorage.removeItem("gostarter_token");
+  window.location.href = "/";
+};

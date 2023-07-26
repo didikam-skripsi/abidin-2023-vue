@@ -30,14 +30,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-2 d-grid">
-                      <router-link
-                        :to="{ name: 'admin.siswa.create' }"
-                        class="btn btn-md btn-success btn-block"
-                        ><i class="fas fa-plus"></i> Tambah</router-link
-                      >
-                    </div>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                       <div class="input-group">
                         <input
                           @keyup.enter="fetchAction"
@@ -45,7 +38,7 @@
                           style="max-width: 20rem"
                           type="text"
                           placeholder="Search and Enter"
-                          class="form-control ms-auto"
+                          class="form-control"
                         />
                         <button
                           @click="fetchAction"
@@ -56,11 +49,19 @@
                         </button>
                       </div>
                     </div>
+                    <div class="col-md-2">
+                      <router-link
+                        :to="{ name: 'admin.siswa.create' }"
+                        class="btn btn-md btn-success btn-block"
+                        ><i class="fas fa-plus"></i> Tambah</router-link
+                      >
+                    </div>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-striped table-bordered mt-4">
+                    <table class="table table-striped table-bordered mt-3">
                       <thead class="">
                         <tr>
+                          <th scope="col">No</th>
                           <th scope="col">Nama</th>
                           <th scope="col">Nisn</th>
                           <th scope="col">Kelas</th>
@@ -79,6 +80,7 @@
                           v-for="(data, index) in datas.data"
                           :key="index"
                         >
+                          <td>{{ (index +1)+((datas.current_page-1)*params.per_page) }}</td>
                           <td>{{ data.name }}</td>
                           <td>{{ data.nisn }}</td>
                           <td>{{ data.kelas?.name }}</td>

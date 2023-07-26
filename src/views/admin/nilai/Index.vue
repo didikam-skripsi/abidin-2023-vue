@@ -7,7 +7,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Pengguna</h1>
+              <h1 class="m-0">Nilai</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -16,7 +16,7 @@
                     >Home</router-link
                   >
                 </li>
-                <li class="breadcrumb-item active">Pengguna</li>
+                <li class="breadcrumb-item active">Nilai</li>
               </ol>
             </div>
           </div>
@@ -30,7 +30,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                       <div class="input-group">
                         <input
                           @keyup.enter="fetchAction"
@@ -49,22 +49,20 @@
                         </button>
                       </div>
                     </div>
-                    <div class="col-md-2">
-                      <router-link
-                        :to="{ name: 'admin.user.create' }"
-                        class="btn btn-md btn-success btn-block"
-                        ><i class="fas fa-plus"></i> Tambah</router-link
-                      >
-                    </div>
                   </div>
                   <div class="table-responsive">
                     <table class="table table-striped table-bordered mt-3">
                       <thead class="">
                         <tr>
                           <th scope="col">No</th>
+                          <th scope="col">Kelas</th>
                           <th scope="col">Nama</th>
-                          <th scope="col">Username</th>
-                          <th scope="col">Role</th>
+                          <th scope="col">UTS</th>
+                          <th scope="col">UAS</th>
+                          <th scope="col">Tugas</th>
+                          <th scope="col">Absen</th>
+                          <th scope="col">Sikap</th>
+                          <th scope="col">Class</th>
                           <th class="text-center" scope="col">Aksi</th>
                         </tr>
                       </thead>
@@ -80,32 +78,37 @@
                           v-for="(data, index) in datas.data"
                           :key="index"
                         >
-                          <td>{{ (index +1)+((datas.current_page-1)*params.per_page) }}</td>
+                          <td>
+                            {{
+                              index +
+                              1 +
+                              (datas.current_page - 1) * params.per_page
+                            }}
+                          </td>
+                          <td>{{ data.kelas?.name }}</td>
                           <td>{{ data.name }}</td>
-                          <td>{{ data.username }}</td>
-                          <td>{{ data.role }}</td>
+                          <td>{{ data.nilai?.uts }}</td>
+                          <td>{{ data.nilai?.uas }}</td>
+                          <td>{{ data.nilai?.tugas }}</td>
+                          <td>{{ data.nilai?.absen }}</td>
+                          <td>{{ data.nilai?.sikap }}</td>
+                          <td>{{ data.nilai?.class }}</td>
                           <td class="text-center">
                             <router-link
                               :to="{
-                                name: 'admin.user.edit',
+                                name: 'admin.nilai.edit',
                                 params: { uuid: data.uuid },
                               }"
                               class="btn btn-sm btn-primary mr-1"
                               ><i class="fas fa-edit"></i> Edit</router-link
                             >
-                            <button
-                              @click.prevent="postDelete(data.uuid)"
-                              class="btn btn-sm btn-danger ml-1"
-                            >
-                              <i class="fas fa-trash"></i> Hapus
-                            </button>
                           </td>
                         </tr>
                       </tbody>
                     </table>
                     <Pagination
                       :datas="datas"
-                      :routerName="'admin.user.index'"
+                      :routerName="'admin.nilai.index'"
                     />
                   </div>
                 </div>
@@ -122,9 +125,8 @@
 import AdminLayout from "@/layouts/AdminLayout";
 import Pagination from "@/components/Pagination.vue";
 import { onMounted, ref, watch, reactive } from "vue";
-import { alertSuccess, alertError } from "@/utils/utils";
+import { alertError } from "@/utils/utils";
 import { authAxios } from "@/utils/axios";
-import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
@@ -158,7 +160,7 @@ function fetchAction() {
 function fetchData() {
   datas.value.loading = true;
   authAxios()
-    .get("/admin/user", {
+    .get("/admin/nilai", {
       params,
     })
     .then((response) => {
@@ -168,28 +170,5 @@ function fetchData() {
     .catch((error) => {
       alertError(error.response?.data || "Terjadi Kesalahan");
     });
-}
-//method delete
-function postDelete(uuid) {
-  Swal.fire({
-    title: "Yakin hapus data ini?",
-    showCancelButton: true,
-    confirmButtonText: "Ya",
-    cancelButtonText: "Tidak",
-    icon: "warning",
-  }).then((result) => {
-    if (result.value) {
-      authAxios()
-        .delete(`/admin/user/${uuid}`)
-        .then((res) => {
-          if (res.status != 200) throw new Error(res.data.message);
-          alertSuccess(res.data.message);
-          fetchData();
-        })
-        .catch((error) => {
-          alertError(error.response.message);
-        });
-    }
-  });
 }
 </script>
